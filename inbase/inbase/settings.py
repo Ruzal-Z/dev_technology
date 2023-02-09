@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'itart.apps.ItartConfig'    #подключае наше первое приложение itart
+    'posts.apps.PostsConfig',
+    'core.apps.CoreConfig',
+    'django_rename_app',
 ]
 
 MIDDLEWARE = [
@@ -53,11 +55,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'inbase.urls'
-
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -65,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # Добавлен контекст-процессор
+                'core.context_processors.year.year',
             ],
         },
     },
@@ -76,13 +80,22 @@ WSGI_APPLICATION = 'inbase.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+'default': {
+'ENGINE': 'django.db.backends.postgresql',
+'NAME': 'db_inbase',
+'USER': 'postgres',
+'PASSWORD': 'postgres',
+'HOST': 'localhost',#'127.0.0.1',
+'PORT': '5432'
 }
-
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
